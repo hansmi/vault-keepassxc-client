@@ -7,13 +7,29 @@ on:
   push:
 
 permissions:
-  contents: read
+  contents: write
+  packages: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Variable setup
+        id: vars
+        run: |
+          shopt -s extglob
+
+          release_enabled=
+
+          if [[ "${GITHUB_EVENT_NAME:?}" = +(push|workflow_dispatch) && "${GITHUB_REF:?}" = refs/tags/v[0-9]*.* ]]; then
+            release_enabled=true
+          fi
+
+          {
+            echo "release_enabled=${release_enabled}"
+          } | tee -a $GITHUB_OUTPUT
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -33,5 +49,22 @@ jobs:
 
       - name: Lint code
         run: uv run ruff check
+
+      - name: Build distribution
+        run: uv build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vault-keepassxc-client-${{ github.sha }}-${{ hashFiles('dist/**') }}
+          path: dist/**
+          if-no-files-found: error
+
+      - name: Upload binaries to release
+        if: steps.vars.outputs.release_enabled
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: dist/vault_keepassxc_client*.whl
 
 # vim: set sw=2 sts=2 et :
