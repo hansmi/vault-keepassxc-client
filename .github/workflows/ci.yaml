@@ -1,0 +1,37 @@
+---
+name: Run tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - name: Install dependencies
+        run: uv sync --frozen --all-extras --dev
+
+      - name: Check code format
+        run: uv run ruff format --diff
+
+      - name: Lint code
+        run: uv run ruff check
+
+# vim: set sw=2 sts=2 et :
