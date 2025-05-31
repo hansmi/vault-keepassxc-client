@@ -24,6 +24,7 @@ packages = ["src/vault_keepassxc_client"]
 [dependency-groups]
 dev = [
     "mypy>=1.16.0",
+    "pytest>=8.3.5",
     "ruff>=0.11.0",
 ]
 

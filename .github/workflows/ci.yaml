@@ -53,6 +53,9 @@ jobs:
       - name: Check types
         run: uv run mypy .
 
+      - name: Run tests
+        run: uv run pytest -v
+
       - name: Build distribution
         run: uv build
 
