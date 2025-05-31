@@ -12,6 +12,8 @@ import subprocess
 import sys
 import tempfile
 
+from typing import Iterator, Sequence, Mapping
+
 from ansible.config import manager as a_config_manager
 from ansible.module_utils.common import yaml as a_yaml
 
@@ -63,7 +65,7 @@ class Config:
     default_identity: str
 
 
-def load_config():
+def load_config() -> Config:
     with tempfile.NamedTemporaryFile() as tmpfile:
         a_yaml.yaml_dump(_CONFIG_DEFS, stream=tmpfile, encoding="UTF-8")
         tmpfile.flush()
@@ -89,7 +91,7 @@ class Params:
     generate_random: bool
 
 
-def setup_logging(verbose):
+def setup_logging(verbose: bool) -> None:
     if verbose:
         fmt = "%(asctime)s %(levelname)-.1s %(message)s"
         level = logging.NOTSET
@@ -101,7 +103,7 @@ def setup_logging(verbose):
 
 
 @contextlib.contextmanager
-def exit_on_exception(verbose):
+def exit_on_exception(verbose: bool) -> Iterator[None]:
     try:
         yield
     except Exception as exc:
@@ -111,7 +113,13 @@ def exit_on_exception(verbose):
         sys.exit(f"Error: {exc}")
 
 
-def run_helper(params, *, args, req=None, capture_json=False):
+def run_helper(
+    params: Params,
+    *,
+    args: Sequence[str],
+    req: Mapping[str, str] | None = None,
+    capture_json: bool = False,
+) -> Mapping[str, str]:
     cmd = [params.helper]
 
     if params.verbose:
@@ -141,14 +149,14 @@ def run_helper(params, *, args, req=None, capture_json=False):
     )
 
     if capture_json:
-        data = json.loads(result.stdout)
+        data: Mapping[str, str] = json.loads(result.stdout)
         logging.debug("Result: %r", data)
         return data
 
-    return None
+    return {}
 
 
-def do_get(params):
+def do_get(params: Params) -> None:
     logging.debug("Reading password for %r", params.url)
 
     response = run_helper(
@@ -169,9 +177,10 @@ def do_get(params):
     print(response["password"])
 
 
-def do_set(params):
+def do_set(params: Params) -> None:
     if params.generate_random:
-        password = secrets.token_urlsafe(nbytes=max(2 * secrets.DEFAULT_ENTROPY, 64))
+        default_entropy = secrets.DEFAULT_ENTROPY  # type: ignore[attr-defined]
+        password = secrets.token_urlsafe(nbytes=max(2 * default_entropy, 64))
     else:
         password = getpass.getpass(prompt="New password: ")
 
@@ -195,7 +204,7 @@ def do_set(params):
     )
 
 
-def make_arg_parser():
+def make_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Get Ansible vault password from a KeepassXC database.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -237,7 +246,7 @@ def make_arg_parser():
     return parser
 
 
-def main_inner(args):
+def main_inner(args: argparse.Namespace) -> None:
     logging.debug("Arguments: %r", args)
 
     cfg = load_config()
@@ -269,7 +278,7 @@ def main_inner(args):
             raise RuntimeError(f"Unknown operation {args.op!r}")
 
 
-def main():
+def main() -> None:
     # Disable coredumps
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
 
