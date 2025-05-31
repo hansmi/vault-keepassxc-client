@@ -17,8 +17,21 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "mypy>=1.16.0",
     "ruff>=0.11.0",
 ]
 
 [tool.ruff.lint]
 extend-select = ["B", "Q"]
+
+[tool.mypy]
+exclude = ['.venv', 'venv']
+pretty = true
+strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "ansible.config",
+    "ansible.module_utils.common",
+]
+ignore_missing_imports = true

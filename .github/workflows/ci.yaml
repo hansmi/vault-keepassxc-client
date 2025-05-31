@@ -50,6 +50,9 @@ jobs:
       - name: Lint code
         run: uv run ruff check
 
+      - name: Check types
+        run: uv run mypy .
+
       - name: Build distribution
         run: uv build
 
