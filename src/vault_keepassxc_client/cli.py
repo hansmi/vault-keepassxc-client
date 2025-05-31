@@ -1,22 +1,20 @@
 import argparse
 import contextlib
-import resource
 import dataclasses
 import enum
 import getpass
 import io
 import json
 import logging
+import resource
 import secrets
 import subprocess
 import sys
 import tempfile
-
-from typing import Iterator, Sequence, Mapping
+from typing import Iterator, Mapping, Sequence
 
 from ansible.config import manager as a_config_manager
 from ansible.module_utils.common import yaml as a_yaml
-
 
 _CONFIG_SECTION = "vault_keepassxc_client"
 _CONFIG_DEFS = dict(

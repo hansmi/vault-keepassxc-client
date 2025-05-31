@@ -28,7 +28,12 @@ dev = [
 ]
 
 [tool.ruff.lint]
-extend-select = ["B", "Q"]
+extend-select = ["B", "Q", "I"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+known-first-party = ["vault_keepassxc_client"]
+single-line-exclusions = ["typing"]
 
 [tool.mypy]
 exclude = ['.venv', 'venv']
