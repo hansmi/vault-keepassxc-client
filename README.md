@@ -1,7 +1,7 @@
 # Ansible Vault client for KeePassXC
 
 `vault-keepassxc-client` is a [client script for Ansible
-Vault][ansible-vault-client-scripts] t work with
+Vault][ansible-vault-client-scripts] to work with
 [KeePassXC][keepassxc]
 ([keepassxreboot/keepassxc][keepassxc-github]).
 Passwords for vaults are retrieved from the password manager.
