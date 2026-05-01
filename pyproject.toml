@@ -5,7 +5,7 @@ description = "Read Ansible Vault passwords from KeePassXC"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "ansible-core>=2.14.0",
+    "ansible-core>=2.19.9",
 ]
 
 [project.scripts]
