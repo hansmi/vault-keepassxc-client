@@ -4,7 +4,7 @@ requires-python = ">=3.11"
 
 [[package]]
 name = "ansible-core"
-version = "2.19.9"
+version = "2.19.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
@@ -13,9 +13,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "resolvelib" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/5b/161275ff5fa673dfc1329ed19a44331a4f491166a9f0cb907b44037ad72e/ansible_core-2.19.9.tar.gz", hash = "sha256:74107de13d188ff579fb215bc3eb875c9198803215d6378ed588c7f35aba12f5", size = 3431475, upload-time = "2026-04-21T00:47:09.194Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/cb/41f6da397789a82cdfa8e6e7aa16592697af06a4109f77101eb8ee79aae7/ansible_core-2.19.10.tar.gz", hash = "sha256:afe0438d3acb402319baeb12a52465e69642e7497889a3a979cf390c6061a138", size = 3434349, upload-time = "2026-05-18T20:50:16.682Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/b9/f2c07e6cdba6a5882342d666ceea4eeeb6fea20ec325fac68c27bfcea722/ansible_core-2.19.9-py3-none-any.whl", hash = "sha256:18de80e3ea5a89d2ea84e4d4a3c6d7c121ea62fc3af2877ba083784e3d90b419", size = 2416269, upload-time = "2026-04-21T00:47:06.777Z" },
+    { url = "https://files.pythonhosted.org/packages/07/1b/d4dbac5ce5f1cbac1a4c8040100b1953f19bad00204643df88ea582838c8/ansible_core-2.19.10-py3-none-any.whl", hash = "sha256:ed6399e42384f55886ba1c9947496beb81f6e6b9f15cd90b3013a78baf6649ab", size = 2416570, upload-time = "2026-05-18T20:50:14.906Z" },
 ]
 
 [[package]]
@@ -491,7 +491,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ansible-core", specifier = ">=2.19.9" }]
+requires-dist = [{ name = "ansible-core", specifier = ">=2.19.10" }]
 
 [package.metadata.requires-dev]
 dev = [
