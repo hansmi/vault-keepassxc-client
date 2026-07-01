@@ -177,7 +177,7 @@ def do_get(params: Params) -> None:
 
 def do_set(params: Params) -> None:
     if params.generate_random:
-        default_entropy = secrets.DEFAULT_ENTROPY  # type: ignore[attr-defined]
+        default_entropy = secrets.DEFAULT_ENTROPY
         password = secrets.token_urlsafe(nbytes=max(2 * default_entropy, 64))
     else:
         password = getpass.getpass(prompt="New password: ")
